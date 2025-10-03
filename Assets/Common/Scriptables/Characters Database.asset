@@ -31,3 +31,12 @@ MonoBehaviour:
     startingAbility: 0
     baseHP: 120
     baseDamage: 1.2
+  - name: SpaceShip
+    cost: 500
+    icon: {fileID: 21300000, guid: c4f8a01fad80ab74f8e250b688d74a55, type: 3}
+    prefab: {fileID: 2921880940271959218, guid: d3f8c2ac43cd68743a5c3a63c7df8863,
+      type: 3}
+    hasStartingAbility: 0
+    startingAbility: 109
+    baseHP: 120
+    baseDamage: 1.2

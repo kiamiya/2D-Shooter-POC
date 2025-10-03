@@ -35,6 +35,11 @@ namespace OctoberStudio
         [SerializeField] protected Transform centerPoint;
         [SerializeField] protected PlayerEnemyCollisionHelper collisionHelper;
 
+        [Header("Weapon Anchors (Optional)")]
+        [SerializeField] protected WeaponAnchors weaponAnchors;
+        float shipRotationOffset = -90f;
+        bool rotateCharacterOnly = true;
+        Transform shipTransform => weaponAnchors != null ? weaponAnchors.transform : null;
         public static Transform CenterTransform => instance.centerPoint;
         public static Vector2 CenterPosition {
             get
@@ -46,7 +51,7 @@ namespace OctoberStudio
                 return instance.centerPoint.position;
             }
         }
-
+        public static void SetNewWeapon(GameObject prefab) { instance.weaponAnchors.SetupAnchor(prefab); }
         [Header("Death and Revive")]
         [SerializeField] protected ParticleSystem reviveParticle;
 
@@ -101,6 +106,7 @@ namespace OctoberStudio
             Character.Transform.SetParent(transform);
             Character.Transform.ResetLocal();
 
+
             instance = this;
             healthbar.Init(Data.BaseHP);
             healthbar.SetAutoHideWhenMax(true);
@@ -118,6 +124,8 @@ namespace OctoberStudio
             RecalculateDurationMultiplier(1);
             RecalculateGoldMultiplier(1);
 
+            try { weaponAnchors = FindFirstObjectByType<WeaponAnchors>(); Debug.Log($"Catch anchors : {weaponAnchors}"); }
+            catch { Debug.Log("No WeaponAnchors on this character"); }
             LookDirection = Vector2.right;
 
             IsMovingAlowed = true;
@@ -141,27 +149,62 @@ namespace OctoberStudio
             var input = GameController.InputManager.MovementValue;
 
             float joysticPower = input.magnitude;
-            Character.SetSpeed(joysticPower);
-
-            if (!Mathf.Approximately(joysticPower, 0) && Time.timeScale > 0)
+            if (weaponAnchors == null)
             {
-                var frameMovement = input * Time.deltaTime * Speed;
-
-                if (StageController.FieldManager.ValidatePosition(transform.position + Vector3.right * frameMovement.x, fenceOffset))
+                Debug.Log("Char move");
+                Character.SetSpeed(joysticPower);
+                if (!Mathf.Approximately(joysticPower, 0) && Time.timeScale > 0)
                 {
-                    transform.position += Vector3.right * frameMovement.x;
+                    var frameMovement = input * Time.deltaTime * Speed;
+
+                    if (StageController.FieldManager.ValidatePosition(transform.position + Vector3.right * frameMovement.x, fenceOffset))
+                    {
+                        transform.position += Vector3.right * frameMovement.x;
+                    }
+
+                    if (StageController.FieldManager.ValidatePosition(transform.position + Vector3.up * frameMovement.y, fenceOffset))
+                    {
+                        transform.position += Vector3.up * frameMovement.y;
+                    }
+
+                    collisionHelper.transform.localPosition = Vector3.zero;
+
+                    Character.SetLocalScale(new Vector3(input.x > 0 ? 1 : -1, 1, 1));
+
+                    LookDirection = input.normalized;
+                }
+            }
+            else
+            {
+                Debug.Log("Ship move");
+                if (!Mathf.Approximately(joysticPower, 0f) && Time.timeScale > 0f)
+                {
+                    var dir = input.normalized;
+                    LookDirection = dir;
+
+                    // Angle final + offset (si sprite orienté Y+)
+                    float angleDeg = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + shipRotationOffset;
+
+                    // Toujours tourner le root pour tester
+                    shipTransform.rotation = Quaternion.Euler(0f, 0f, angleDeg);
+
+                    // Mouvement
+                    var frameMovement = dir * (Speed * joysticPower) * Time.deltaTime;
+
+                    var candidateX = transform.position + Vector3.right * frameMovement.x;
+                    if (StageController.FieldManager.ValidatePosition(candidateX, fenceOffset))
+                        transform.position = candidateX;
+
+                    var candidateY = transform.position + Vector3.up * frameMovement.y;
+                    if (StageController.FieldManager.ValidatePosition(candidateY, fenceOffset))
+                        transform.position = candidateY;
+
+                    collisionHelper.transform.localPosition = Vector3.zero;
+
+                    // Debug direction
+                    Debug.DrawRay(transform.position, dir * 1.5f, Color.cyan, 0f, false);
                 }
 
-                if (StageController.FieldManager.ValidatePosition(transform.position + Vector3.up * frameMovement.y, fenceOffset))
-                {
-                    transform.position += Vector3.up * frameMovement.y;
-                }
-
-                collisionHelper.transform.localPosition = Vector3.zero;
-
-                Character.SetLocalScale(new Vector3(input.x > 0 ? 1 : -1, 1, 1));
-
-                LookDirection = input.normalized;
             }
         }
 

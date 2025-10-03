@@ -14,22 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gems:
   - dropType: 0
-    prefab: {fileID: 9143106580007897129, guid: e2434e12c48aad342a597ad9d08a9fe0,
+    prefab: {fileID: 3138282060253990052, guid: 1e955b424572a2548aad12af6bebdf11,
       type: 3}
     affectedByMagnet: 1
     dropCooldown: 0
   - dropType: 1
-    prefab: {fileID: 3767841545309144952, guid: c13a6d6a7784ecd4f90a22c3ce2e5903,
+    prefab: {fileID: 9091701006926014981, guid: 4be9b982516e8794ea3bc412be180b22,
       type: 3}
     affectedByMagnet: 1
     dropCooldown: 0
   - dropType: 2
-    prefab: {fileID: 1494583194590317331, guid: ef3b7cf0f6a3ec04bb4e88a673250008,
+    prefab: {fileID: 9174239599195938332, guid: cce86f0b146ae8c4f8b8aab7db0b1a36,
       type: 3}
     affectedByMagnet: 1
     dropCooldown: 0
   - dropType: 3
-    prefab: {fileID: 1537621102715106445, guid: f4d4d0d16e89884448fd6e144d12d08c,
+    prefab: {fileID: 3363982578531207039, guid: 880140ddeb476b9438e03d6b441bc878,
       type: 3}
     affectedByMagnet: 1
     dropCooldown: 0
