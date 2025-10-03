@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e675658e5d57a9046b3324c0c946a620, type: 3}
+  m_Name: Stage 3
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 9d8bef5f271cb5f40bd06dca40588898, type: 3}
+  displayName: DEEP SPACE
+  timeline: {fileID: 11400000, guid: b45fe3c78ce52f64b91ff8fef38e62ef, type: 2}
+  stageType: 0
+  stageFieldData: {fileID: 11400000, guid: aa407c269299844419b66efebcaa75bc, type: 2}
+  spawnProp: 0
+  removePropFromBossfight: 0
+  spotlightColor: {r: 0.23335704, g: 0.7115405, b: 0.8679245, a: 0.34901962}
+  spotlightShadowColor: {r: 0.027812388, g: 0.04668105, b: 0.23584908, a: 0.74509805}
+  enemyDamage: 1
+  enemyHP: 1
+  useCustomMusic: 0
+  musicName: 

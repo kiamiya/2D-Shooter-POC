@@ -69,5 +69,9 @@ namespace OctoberStudio
         ShadeJellyfish = 16,
         ShadeBat = 17,
         ShadeVampire = 18,
+        Alien = 19,
+        Fighter = 20,
+        Cruiser = 21,
+        Station = 22
     }
 }
